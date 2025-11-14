@@ -1,28 +1,25 @@
 pipeline {
-    agent any
-    options {
-        skipStagesAfterUnstable()
-    }
+  agent any 
     stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+        stage('Checkout'){
+            steps{
+                 echo "Getting code from Github...."
+                 git branch: 'master', url:'https://github.com/palwalun/simple-java-maven-app.git'
+                 }
+              }
+        stage('Build'){
+           steps{
+               echo "Building the code..."
+               sh "mvn clean package"
                 }
+             }
+        stage('Build & Deploy Docker Image'){
+            steps{
+               sh "docker build -t palwalun/jenkins-image:v1.0 ."
+                sh "docker run -d --name jenkins-build -p 8089:8080 palwalun/jenkins-image:v1.0"
             }
         }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
-            }
-        }
+  
     }
+    
 }
