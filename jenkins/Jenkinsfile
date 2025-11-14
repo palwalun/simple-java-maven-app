@@ -19,7 +19,5 @@ pipeline {
                 sh "docker run -d --name jenkins-build -p 8089:8080 palwalun/jenkins-image:v1.0"
             }
         }
-  
-    }
-    
+    }   
 }
