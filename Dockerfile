@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM debian:trixie-slim
 WORKDIR /app
 COPY target/*.jar app.jar
 EXPOSE 9090
