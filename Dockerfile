@@ -1,5 +1,2 @@
-FROM debian:trixie-slim
-WORKDIR /app
-COPY target/*.jar app.jar
-EXPOSE 9090
-ENTRYPOINT ["java", "-jar", "app.jar" ]
+FROM tomee
+COPY my-app-1.0-SNAPSHOT.jar /usr/local/tomee/webapps/testapp.jar
